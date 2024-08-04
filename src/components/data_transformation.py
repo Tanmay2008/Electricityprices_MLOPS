@@ -29,7 +29,7 @@ class DataTransformation:
         
         '''
         try:
-            numerical_columns = ["year", "price"]
+            numerical_columns = ["year"]
             categorical_columns = [
                 "sectorName",
                 "stateDescription",          

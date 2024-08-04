@@ -31,6 +31,9 @@ class ModelTrainer:
                 test_array[:,:-1],
                 test_array[:,-1]
             )
+            X_train = X_train.drop(['customers','revenue','sales'],axis=1,inplace= True)
+            X_test = X_test.drop(['customers','revenue','sales'],axis=1,inplace= True)
+            logging.info("Removed customers,revenue and sales columns from X_train and X_test data")
             models = {
                 "Random Forest": RandomForestRegressor(random_state=42),
    
