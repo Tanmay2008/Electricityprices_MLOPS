@@ -1,0 +1,59 @@
+name: Build and deploy Python app  - ELECTRICITYPRICES_2024
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ****
+
+    steps:
+      - uses: actions/checkout@v
+
+      - name: Set up Python version
+        uses: actions/setup-python@v
+        with:
+          python-version: '3.9'
+
+      - name: Create and start virtual environment
+        run: |
+          python -m venv venv
+          source venv/bin/activate
+      
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+        
+      
+      
+      - name: Upload artifact for deployment jobs
+        uses: actions/upload-artifact@v
+        with:
+          name: python-app
+          path: |
+            . 
+            !Myenv/
+
+  deploy:
+    runs-on: ***
+    needs: build
+    environment:
+      name: 'Production'
+      url: ${{ url }}
+
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v
+        with:
+          name: python-app
+          path: .
+          
+      - name: 'Deploy'
+        uses: Deployment_env_name/webapps-deploy@v
+        id: deploy-to-webapp
+        with:
+          app-name: 'ELECTRICITYPRICES_2024'
+          slot-name: 'Production'
+          publish-profile: ${{ XXX_PUBLISHPROFILE_XXXX }}
